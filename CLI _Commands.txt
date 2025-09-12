@@ -1,0 +1,104 @@
+ This will remove all partition information:
+	sudo wipefs -a /dev/sda
+
+If you want to also zero out (overwrite with zeros) the first and last sectors:
+	sudo dd if=/dev/zero of=/dev/sda bs=1M count=10
+	sudo dd if=/dev/zero of=/dev/sda bs=1M count=10 seek=$(( $(blockdev --getsz /dev/sda) / 2048 - 10 ))
+
+After wiping, check if the partitions are gone:
+	sudo fdisk -l /dev/sda
+
+
+Recommended Partition Layout for GPT
+BIOS Boot Partition (1MB, type EF02) → Required for BIOS + GPT.
+EFI System Partition (ESP) (300MB, type EF00) → For future compatibility.
+Root (/) Partition (50GB or more, type 8304) → System files.
+Home (/home) Partition (Rest of space, type 8302) → Personal files.
+Swap Partition (Optional, same as your RAM size, type 8200) → Helps with performance if you have low RAM.
+
+
+Summary of Partition Scheme for MBR:
+/dev/sda1 - Boot Partition (500MB, formatted as ext4)
+/dev/sda2 - Swap Partition (4GB)
+/dev/sda3 - Root Partition (50GB, formatted as ext4)
+/dev/sda4 - Home Partition (remaining space, formatted as ext4)
+
+
+Create MBR Partition Table
+
+Use fdisk to partition the disk as MBR:
+
+	sudo fdisk /dev/sda
+
+Inside fdisk, type the following commands:
+
+	Type o to create a new empty DOS partition table (MBR).
+	Type y to confirm.
+
+
+Create Boot Partition (for the boot loader):
+
+	Type n to create a new partition.
+	Select partition number 1 (default).
+	First sector: Press Enter to select the default (2048).
+	Last sector: Type +500M for the boot partition (500MB).
+	Type t to change the partition type.
+	Type 1 for Linux partition type (or just select Primary if it's already set).
+
+Create Swap Partition:
+
+	Type n to create another new partition.
+	Select partition number 2.
+	First sector: Press Enter to select the default.
+	Last sector: Type +4G for the swap partition (this will reserve 4GB for swap).
+	Type t to change the partition type.
+	Type 82 for Linux swap partition type.
+
+Create Root Partition (for OS):
+
+	Type n to create another new partition.
+	Select partition number 3.
+	First sector: Press Enter to select the default.
+	Last sector: Type +50G for the root partition (50GB).
+	Type t to change the partition type.
+	Type 83 for Linux partition type.
+
+Create Home Partition (for your data):
+
+	Type n to create another new partition.
+	Select partition number 4.
+	First sector: Press Enter to select the default.
+	Last sector: Press Enter to use the remaining free space.
+	Type t to change the partition type.
+	Type 83 for Linux partition type.
+
+Write the changes to the disk:
+
+	Type w to write the partition table.
+	Confirm by typing y.
+
+Format the Partitions
+
+Format the Boot Partition (/dev/sda1):
+
+			sudo mkfs.ext4 /dev/sda1
+	sudo mkfs.ext2 /dev/sda1
+
+Format the Swap Partition (/dev/sda2):
+
+	sudo mkswap /dev/sda2
+	sudo swapon /dev/sda2
+
+Format the Root Partition (/dev/sda3):
+
+	sudo mkfs.ext4 /dev/sda3
+
+Format the Home Partition (/dev/sda4):
+
+	sudo mkfs.ext4 /dev/sda4
+
+BIOS system: Boot partition = ext2
+UEFI system: EFI partition = vfat (FAT32)
+
+
+Begin the Bodhi Linux Installation

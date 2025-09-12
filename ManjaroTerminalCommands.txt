@@ -1,0 +1,77 @@
+To exit and return to previous directory
+	cd [single space] ..
+
+Update and upgrade
+	sudo pacman -Syu
+	sudo pacman -Syyu	(forcing update and upgrade)
+
+To print current directory name
+	pwd	(print working directory)
+
+Command to create a folder:
+	mkdir <folder_name>
+
+Create parent directories: If you want to create a folder and its parent directories (if they don't already exist)
+	mkdir -p /path/to/my_folder
+
+To install any application
+	sudo pacman -S <package name>
+	sudo yay -S <package name> (to install from AUR)
+
+To uninstall any application
+	sudo pacman -Rns <package name>
+
+Find fastest mirrors
+	sudo pacman-mirrors --fasttrack or sudo pacman-mirrors -f
+	sudo pacman-mirrors --fasttrack 6 or sudo pacman-mirrors -f 6 (find the top 6 fastest mirrors)
+List mirrors in use
+	sudo pacman-mirrors
+
+To backup mirror list
+	sudo cp /etc/pacman.d/mirrorlist [single space] /etc/pacman.d/mirrorlist.bak
+
+To restore backed up mirror list
+	sudo mv /etc/pacman.d/mirrorlist.bak [single space] /etc/pacman.d/mirrorlist
+
+Removing Electron32
+	pacman -Q | grep electron
+	sudo pacman -Rns electron32
+	pacman -Q | grep electron
+	yay -Rns electron32
+
+Install git and the base-devel package group, which are commonly needed for development tasks and compiling software from source, especially if you plan to work with the AUR or version control
+	sudo pacman -S git base-devel
+
+Clone the yay AUR (Arch User Repository) helper from GitHub
+	git clone https://aur.archlinux.org/yay.git
+	cd yay
+	makepkg -si
+	cd ..
+	yay -S <package_name>   # Install a package from AUR
+	yay -Ss <search_term>   # Search for a package
+
+Clone the paru AUR (Arch User Repository) helper from GitHub
+	git clone https://aur.archlinux.org/paru.git
+	cd paru
+	makepkg -si
+	cd ..
+	paru -S <package_name>   # Install from AUR
+
+Clone the trizen AUR (Arch User Repository) helper from GitHub
+	git clone https://aur.archlinux.org/trizen.git
+	cd trizen
+	makepkg -si
+	cd ..
+	trizen -S <package_name>   # Install from AUR
+
+Clone the aurman AUR (Arch User Repository) helper from GitHub
+	git clone https://aur.archlinux.org/aurman.git
+	cd aurman
+	makepkg -si
+	cd ..
+	aurman -S <package_name>   # Install from AUR
+
+To access GRUB config file
+	sudo nano /etc/default/grub
+
+

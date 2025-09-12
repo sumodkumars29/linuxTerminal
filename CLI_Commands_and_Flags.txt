@@ -1,0 +1,27 @@
+grep : get -vE
+
+-v (invert) : reverse the output
+
+-E (Extended Regular Expressions) : Allows the use of |, + and others without using \ as escape character
+
+
+Regex:
+'^\s*($|#)' : a regex (Regular Expression), this is what we are looking for 
+	^ : Matches the start of the line. Ensures the rest of the pattern is applied from the beginning of each line.
+	\s* : 	\s → matches any whitespace character (space, tab, etc.)
+		* → means zero or more occurrences of the preceding element
+		So \s* matches any amount of leading whitespace, including none.
+		This is important because a line might start with spaces or tabs before a comment
+	($|#) : | → logical OR (alternation) 
+		$ → end of line
+		# → hash symbol, start of a comment
+		So ($|#) matches either: The line is empty (end of line immediately after optional whitespace) or the line has a comment starting with #
+Note: If the -E is not used, characters like (,| and ) will need \ to act as escape, so the regex will look like '^\s*\($\|#\)'
+
+| (pipe) : push the output of the command on the left into the command on the right
+
+wc (word count) :Can count lines, words, and bytes depending on the options given (-l lines, -w	words, -c bytes and -m characters)
+	wc -l (lines)
+	wc -w (words)
+	wc -c (bytes)
+	wc -m (characters)

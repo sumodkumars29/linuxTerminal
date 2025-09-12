@@ -1,0 +1,5 @@
+sudo pacman -Syu
+
+sudo pacman -Rns <package_name>
+
+sudo pacman -Rns $(pacman -Qqdt)

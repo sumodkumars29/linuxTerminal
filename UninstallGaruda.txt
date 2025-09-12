@@ -1,0 +1,103 @@
+2. Boot into Windows 10
+Restart your PC and boot into Windows.
+Ensure you have administrative privileges in Windows to modify partitions.
+
+3. Remove Garuda Linux Partitions
+Open Disk Management:
+
+Press Win + R, type diskmgmt.msc, and hit Enter.
+Locate the partitions used by Garuda Linux. These will likely be:
+EFI/boot partition (if using UEFI; shared with Windows but don't delete this if you're dual-booting).
+Root partition (commonly formatted as ext4 or btrfs).
+Swap partition (if created during installation).
+
+Delete Linux Partitions:
+
+Right-click on each Linux partition and select Delete Volume. These will turn into unallocated space.
+
+Extend Windows Partition:
+
+Right-click on your Windows partition (e.g., C:) and choose Extend Volume to merge the unallocated space into it.
+
+4. Repair the Bootloader
+Garuda Linux will have installed its bootloader (GRUB). 
+To restore the Windows bootloader:
+
+Create a Windows Recovery Drive (if you don’t have one):
+Use another Windows PC to create a recovery USB using the Windows Media Creation Tool.
+
+Boot from the Recovery Drive:
+Insert the USB, restart your PC, and boot into the recovery environment.
+
+Access Command Prompt:
+In the recovery environment, choose Troubleshoot > Advanced Options > Command Prompt.
+
+Run Bootloader Repair Commands:
+
+Enter the following commands:
+bash
+Copy code
+bootrec /fixmbr
+bootrec /fixboot
+bootrec /scanos
+bootrec /rebuildbcd
+Restart your PC to confirm that the Windows bootloader is restored.
+
+
+Memory updated
+To uninstall Garuda Linux and reclaim the space for Windows, follow these steps carefully:
+
+1. Back Up Your Data
+Before proceeding, back up any important files from both Windows and Garuda Linux to an external drive or cloud storage.
+
+2. Boot into Windows 10
+Restart your PC and boot into Windows.
+Ensure you have administrative privileges in Windows to modify partitions.
+3. Remove Garuda Linux Partitions
+Open Disk Management:
+
+Press Win + R, type diskmgmt.msc, and hit Enter.
+Locate the partitions used by Garuda Linux. These will likely be:
+EFI/boot partition (if using UEFI; shared with Windows but don't delete this if you're dual-booting).
+Root partition (commonly formatted as ext4 or btrfs).
+Swap partition (if created during installation).
+Delete Linux Partitions:
+
+Right-click on each Linux partition and select Delete Volume. These will turn into unallocated space.
+Extend Windows Partition:
+
+Right-click on your Windows partition (e.g., C:) and choose Extend Volume to merge the unallocated space into it.
+4. Repair the Bootloader
+Garuda Linux will have installed its bootloader (GRUB). To restore the Windows bootloader:
+
+Create a Windows Recovery Drive (if you don’t have one):
+
+Use another Windows PC to create a recovery USB using the Windows Media Creation Tool.
+Boot from the Recovery Drive:
+
+Insert the USB, restart your PC, and boot into the recovery environment.
+
+Access Command Prompt:
+In the recovery environment, choose Troubleshoot > Advanced Options > Command Prompt.
+Run Bootloader Repair Commands:
+
+Enter the following commands:
+bash
+Copy code
+bootrec /fixmbr
+bootrec /fixboot
+bootrec /scanos
+bootrec /rebuildbcd
+Restart your PC to confirm that the Windows bootloader is restored.
+
+5. (Optional) Remove the GRUB Entry
+If GRUB still appears during startup:
+
+Open Command Prompt as Administrator in Windows.
+Run:
+arduino
+Copy code
+bcdedit /set {bootmgr} path \EFI\Microsoft\Boot\bootmgfw.efi
+6. Verify Changes
+Reboot the PC to ensure Garuda Linux has been completely removed, and Windows boots correctly.
+Check in Disk Management that the unallocated space has been merged into your Windows partition.

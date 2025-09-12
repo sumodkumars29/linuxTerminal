@@ -1,0 +1,18 @@
+:: Get details about mounted or plugged in devices
+:: Shows - FSTYPE  NAME/LABEL  UUID  SIZE  MOUNTPOINT
+lsblk -f
+
+
+
+:: Renaming the USB
+sudo ntfslabel /dev/sdc1 MYUSB
+
+:: This flushes all writes and detaches the filesystem. After that, you can pull it out.
+sudo umount /dev/sdc1
+
+
+
+:: Power off the device (saf	er)
+udisksctl unmount -b /dev/sdc1
+:: -b means block device
+udisksctl power-off -b /dev/sdc

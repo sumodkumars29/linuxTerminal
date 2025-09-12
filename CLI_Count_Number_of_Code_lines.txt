@@ -1,0 +1,40 @@
+The following command returns the number of lines that are actually code in a file, discards blank lines and commented line, here we are targeting code that has the # commenting syntax. 
+Note: this will not work with block comments.
+grep -vE '^\s*($|#)' script.sh | wc -l	
+
+grep : get 
+
+-v (invert) : reverse the output
+
+-E (Extended Regular Expressions) : Allows the use of |, + and others without using \ as escape character
+
+'^\s*($|#)' : a regex (Regular Expression), this is what we are looking for 
+	^ : Matches the start of the line. Ensures the rest of the pattern is applied from the beginning of each line.
+	\s* : 	\s → matches any whitespace character (space, tab, etc.)
+		* → means zero or more occurrences of the preceding element
+		So \s* matches any amount of leading whitespace, including none.
+		This is important because a line might start with spaces or tabs before a comment
+	($|#) : | → logical OR (alternation) 
+		$ → end of line
+		# → hash symbol, start of a comment
+		So ($|#) matches either: The line is empty (end of line immediately after optional whitespace) or the line has a comment starting with #
+Note: If the -E is not used, characters like (,| and ) will need \ to act as escape, so the regex will look like '^\s*\($\|#\)'
+Putting it all together: ^\s*($|#) 
+			Start at the beginning of the line (^)
+			Skip any spaces/tabs (\s*)
+			Check if the line is either:
+				Blank ($)
+				Or a comment (#)
+
+	Any blank line or line that is just a comment will match this regex.
+
+
+script.sh : This is where we are looking
+
+| (pipe) : push the output of the command on the left into the command on the right
+
+wc (word count) :Can count lines, words, and bytes depending on the options given (-l lines, -w	words, -c bytes and -m characters)
+
+-l (lines) : lines
+
+Bringing it all together : get from the script.sh file. all lines that does not match the format "is blank, starts with #" and then count the number of lines.

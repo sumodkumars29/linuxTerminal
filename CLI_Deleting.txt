@@ -1,0 +1,12 @@
+rd /s /q "C:\path\to\your\directory"
+
+rd : remove directory
+/s : recursively (dig into the directory and all sub-directories till the end)
+/q : quietly, don't prompt for confirmation
+
+del /s /q .\*
+deletes all files recursively.
+does not delete folders
+
+for /d %%D in (*) do rd /s /q "%%D"
+loops over all directories (for /d) and removes them (rd /s /q removes the folder and everything under it without asking).

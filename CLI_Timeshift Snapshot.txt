@@ -1,0 +1,71 @@
+sudo pacman -S timeshift
+:: Installing the timeshift app
+
+sudo timeshift-gtk
+:: opening the timeshift gui
+
+sudo timeshift
+:: running timeshift in the terminal
+
+sudo timeshift --create
+:: create a snapshot from the terminal
+
+sudo timeshift --create --comments "Comment to be written"
+:: create a snapshot and add a comment. Let's you know why and when the snapshot was created
+
+sudo timeshift --list
+:: List all created snapshots	
+
+
+********************************************************************************
+:: how you’d handle a restore from CLI (like when booting from a live USB).
+
+- Boot into live USB
+:: Use an Arch ISO (or any Linux live USB).
+
+:: Mount your root partition :: For you it’s /dev/sda3
+sudo mount /dev/sda3 /mnt
+
+:: Bind mount system dirs (so Timeshift can see them):
+for dir in /dev /proc /sys /run; do
+  sudo mount --bind $dir /mnt$dir
+done
+Needs to be written as for dir in /dev /proc /sys /run; do sudo mount --bind $dir /mnt$dir; done
+The 'for loop' above is equal to :
+		sudo mount --bind /dev /mnt/dev
+		sudo mount --bind /proc /mnt/proc
+		sudo mount --bind /sys /mnt/sys
+		sudo mount --bind /run /mnt/run
+
+:: Chroot into your system
+sudo chroot /mnt
+
+:: Run Timeshift restore
+sudo timeshift --restore
+
+:: It will list your snapshots, ask you to pick one, and confirm overwrite.
+::     Use arrow keys to select.
+::     Confirm with y when it asks.
+
+:: Exit the chroot
+exit
+
+:: how to unmount them all in one go after you’re done restoring
+for dir in /dev /proc /sys /run; do sudo umount /mnt$dir; done
+
+:: Then unmount your root partition
+sudo umount /mnt
+
+:: a quick check command to make sure nothing is still mounted before rebooting
+mount | grep /mnt
+findmnt /mnt
+
+
+sudo reboot
+
+
+
+
+
+
+
