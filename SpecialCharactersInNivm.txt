@@ -1,0 +1,21 @@
+Symbol	Name			Unicode		Neovim Insert Input
+✅		White heavy check		U+2705			Ctrl-V u2705
+❌		Cross mark				U+274C			Ctrl-V u274c
+✔️		Heavy check mark		U+2714			Ctrl-V u2714
+✖️		Multiplication sign		U+2716			Ctrl-V u2716
+➡️		Right arrow				U+27A1			Ctrl-V u27a1
+⬅️		Left arrow				U+2B05			Ctrl-V u2b05
+🔼		Up triangle button		U+1F53C			Ctrl-V u1f53c
+🔽		Down triangle btn		U+1F53D			Ctrl-V u1f53d
+🎯		Direct hit (target)		U+1F3AF			Ctrl-V u1f3af
+⭐		Star					U+2B50			Ctrl-V u2b50
+✨		Sparkles				U+2728			Ctrl-V u2728
+🚀		Rocket					U+1F680			Ctrl-V u1f680
+🔥		Fire					U+1F525			Ctrl-V u1f525
+💡		Light bulb				U+1F4A1			Ctrl-V u1f4a1
+📝		Memo (note)				U+1F4DD			Ctrl-V u1f4dd
+📌		Pushpin					U+1F4CC			Ctrl-V u1f4cc
+📂		Open folder				U+1F4C2			Ctrl-V u1f4c2
+🔒		Locked					U+1F512			Ctrl-V u1f512
+🔑		Key						U+1F511			Ctrl-V u1f511
+💻		Laptop					U+1F4BB			Ctrl-V u1f4bb

@@ -1,0 +1,56 @@
+Core_debug_lua to be retained in the Plugins directory
+
+
+return {
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"rcarriga/nvim-dap-ui",
+			"theHamsta/nvim-dap-virtual-text",
+			"nvim-neotest/nvim-nio",
+			"williamboman/mason.nvim",
+			"mxsdev/nvim-dap-vscode-js", -- Add this for JavaScript debugging
+		},
+
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+
+			dapui.setup()
+			require("nvim-dap-virtual-text").setup()
+
+			
+			-- Your existing keymaps
+			vim.keymap.set("n", "<Leader>dt", dap.toggle_breakpoint, {})
+			vim.keymap.set("n", "<Leader>dc", dap.continue, {})
+			vim.keymap.set("n", "<Leader>dr", dap.restart, {})
+			vim.keymap.set("n", "<F8>", dap.step_into, {})
+			vim.keymap.set("n", "<F9>", dap.step_back, {})
+			vim.keymap.set("n", "<F10>", dap.step_over, {})
+			vim.keymap.set("n", "<F12>", dap.step_out, {})
+
+			vim.keymap.set("n", "<Leader>?", function()
+				require("dapui").eval(nil, { enter = true })
+			end)
+
+			-- Your existing DAP UI listeners
+			dap.listeners.before.attach.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.launch.dapui_config = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated.dapui_config = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited.dapui_config = function()
+				dapui.close()
+			end
+
+      			-- Load language-specific debug configurations
+      			require("sumod.plugins.debug_Langs.debug_Bash")()
+      			require("sumod.plugins.debug_Langs.debug_JavaScript")()
+
+		end,
+	},
+}
